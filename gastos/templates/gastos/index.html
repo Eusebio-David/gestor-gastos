@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor</title>
+</head>
+<body>
+    <a href="">Gastos</a>
+    <h5>Gastos recientes</h5>
+    {% for gasto in gastos %}
+        <div>
+            <p>Gasto: {{gasto.monto}}</p>
+            <p>Categoria: {{gasto.categoria}}</p>
+        </div>
+    {%endfor%}
+</body>
+</html>
