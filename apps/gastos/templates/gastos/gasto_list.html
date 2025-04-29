@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load  static }
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+    {% for gasto in object_list %}
+        <li>{{gasto.fecha_creacion|date}} - {{gasto.categoria}}</li>
+        <li>{{gasto.descripcion}}</li>
+    {% endfor %}
+
+{% endblock %}

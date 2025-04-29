@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load  static }
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+    <a href="{% url 'lista_de_gastos'%}">Gastos</a>
+    <h5>Gastos recientes</h5>
+    {% for gasto in gastos %}
+        <div>
+            <p>Gasto: {{gasto.monto}}</p>
+            <p>Categoria: {{gasto.categoria}}</p>
+            <p>Fecha: {{gasto.fecha_creacion}}</p>
+            <a href="">
+        </div>
+    {% endfor %}
+{% endblock %}

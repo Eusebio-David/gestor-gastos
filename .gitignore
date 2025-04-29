@@ -1,0 +1,30 @@
+# Entornos virtuales
+env/
+venv/
+ENV/
+
+# Archivos de base de datos
+*.sqlite3
+*.db
+
+# Archivos de migraciones compilados
+*.pyc
+__pycache__/
+
+# Archivos de configuración o temporales
+*.log
+*.pot
+*.py[cod]
+*.swp
+
+# Directorios de medios y archivos estáticos
+/media/
+staticfiles/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuraciones de PyCharm o VSCode
+.idea/
+.vscode/
