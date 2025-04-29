@@ -80,21 +80,4 @@ Accede a http://127.0.0.1:8000/ para usar la aplicación.
 
 🗂 Estructura del Proyecto
 ```bash
-gestor/
-├── core/              # Aplicación principal (usuarios, gastos, presupuestos)
-│   ├── migrations/
-│   ├── templates/
-│   ├── static/
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-│   └── admin.py
-├── gestor/            # Configuración general de Django
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── env/               # Entorno virtual
-├── manage.py          # Comando de gestión de Django
-└── README.md          # Documentación principal
 
-```
