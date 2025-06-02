@@ -107,4 +107,4 @@ python manage.py runserver
 - Cambiar campos y agregar en la base de datos
 - Hacer el código más limpio y legible
 - Darle funcionalidad a todos los links que no se utilizan
-- Adaptar todos los templates para que queden acorder a la app
+- Adaptar todos los templates para que queden acordes a la app
