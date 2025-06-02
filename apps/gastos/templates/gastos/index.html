@@ -3,14 +3,30 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-    <a href="{% url 'lista_de_gastos'%}">Gastos</a>
-    <h5>Gastos recientes</h5>
-    {% for gasto in gastos %}
-        <div>
-            <p>Gasto: {{gasto.monto}}</p>
-            <p>Categoria: {{gasto.categoria}}</p>
-            <p>Fecha: {{gasto.fecha_creacion}}</p>
-            <a href="">
-        </div>
-    {% endfor %}
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-md space-y-4">
+  <h2 class="text-xl font-semibold text-gray-800">Mis Gastos</h2>
+
+  <div class="divide-y divide-gray-200">
+    <!-- Gasto individual -->
+     {% for gasto in gastos %}
+      <div class="flex justify-between items-center py-4">
+      <div>
+        <h6 class="text-lg font-medium">{{gasto.fecha_creacion}}</h6>
+       
+      </div>
+      <div>
+        <h3 class="text-lg font-medium">{{gasto.categoria}}</h3>
+        <p class="text-sm text-gray-500">{{gasto.monto}}</p>
+      </div>
+      <div class="text-right">
+        <span class="text-lg font-semibold text-red-500">{{gasto.descripcion}}</span>
+      </div>
+    </div>
+     {% endfor %}
+    
+
+    <!-- Agregá más gastos aquí -->
+  </div>
+</div>
+
 {% endblock %}

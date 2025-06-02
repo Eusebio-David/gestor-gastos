@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Registro exitoso</h2>
+  <p>Se ha generado un enlace de activación. Usualmente se enviaría por correo, pero como esta es una demo, podés usar el siguiente enlace directamente:</p>
+
+  <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+    <strong>Enlace de activación:</strong><br>
+    <a href="{{ activation_link }}">{{ activation_link }}</a>
+  </div>
+
+  <p class="mt-4">Guardalo o hacé clic para activar tu cuenta.</p>
+{% endblock %}

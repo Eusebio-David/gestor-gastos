@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="flex-1 flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-lg shadow-sm p-6 md:p-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Activa tu cuenta</h2>
+            <p class="text-gray-600 mb-4">Haz clic en el siguiente enlace para activar tu cuenta:</p>
+            <a href="{{ activation_link }}" class="text-goodbudget hover:text-goodbudget-dark font-medium">Activar cuenta</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

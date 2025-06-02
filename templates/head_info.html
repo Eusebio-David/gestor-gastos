@@ -1,0 +1,24 @@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'goodbudget': '#22c55e',
+                        'goodbudget-dark': '#16a34a',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <title>{% block title %}Gestor de Gastos{% endblock %}</title>
+    {% load static %}
+    <script src="{% static 'js/change_login.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/main.js' %}"></script>
+   

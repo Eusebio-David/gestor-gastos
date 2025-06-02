@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% include 'gastos/inicio_logueado.html' %}
+    {% else %}
+        {% include 'gastos/inicio_no_logueado.html' %}
+    {% endif %}
+{% endblock %}

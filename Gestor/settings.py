@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-=ai=gef6^h(*o7#f@1oo47g05#8q0u&p5-(*9!^7nfk(41ciqz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,9 +37,25 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Django apps
     #Apps
+    "apps.usuarios",
     "apps.gastos",
     "rest_framework",
+    'django.contrib.sites',
+    
+    # Allauth apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Proveedores sociales
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook',
+
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -50,6 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = "Gestor.urls"
@@ -78,11 +95,11 @@ WSGI_APPLICATION = "Gestor.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "DataGestor",
+        "NAME": "gestorGastosdb",
         "USER": "postgres",
         "PASSWORD": "Admin", 
         "HOST": "localhost",
-        "PORT": '5432',
+        "PORT": "5432",
     }
 }
 
@@ -109,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "es"
 
 TIME_ZONE = "UTC"
 
@@ -121,8 +138,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 #Archivos media 
 
@@ -133,3 +151,20 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#Configurar el id del sitio
+SITE_ID = 1
+
+LOGIN_URL = '/accounts/login/'
+#Redireccionar luego de que se registre 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+if DEBUG:
+    # Configuración de correo electrónico para desarrollo
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'  # Directorio para almacenar correos enviados
+else:
+    # Configuración de correo electrónico para producción
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    #EMAIL_HOST = 'smtp.example.com'  # Cambia esto por tu servidor SMTP

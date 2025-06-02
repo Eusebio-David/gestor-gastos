@@ -1,12 +1,8 @@
 
 # Register your models here.
 from django.contrib import admin
-from .models import Usuario, Categoria, Presupuesto, Gasto
+from .models import Categoria, Presupuesto, Gasto
 
-@admin.register(Usuario)
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'apellido', 'email', 'fecha_registro')
-    search_fields = ('nombre', 'apellido', 'email')
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
