@@ -102,3 +102,9 @@ Iniciá el servidor de desarrollo de Django con:
 ```bash
 python manage.py runserver
 ````
+## 🚧 Queda en proceso de desarrollo:
+- Configurar templates y formularios para restablecer contraseaña
+- Cambiar campos y agregar en la base de datos
+- Hacer el código más limpio y legible
+- Darle funcionalidad a todos los links que no se utilizan
+- Adaptar todos los templates para que queden acorder a la app
