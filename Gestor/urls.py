@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from apps.usuarios.views import ReenviarPasswordResetEmailView, MiPasswordResetView
 
 #URLs del proyecto y app Gastos
 urlpatterns = [
@@ -29,6 +30,13 @@ urlpatterns += [
     path("", include("apps.gastos.urls")),
     path("usuario/", include("apps.usuarios.urls")),
     #Path para la autenticacion 
+    # ✅ Sobrescribir la vista para password reset (para guardar el email en sesión)
+    path('accounts/password_reset/', MiPasswordResetView.as_view(), name='password_reset'),
+
+    # ✅ Ruta para reenviar email
+    path("accounts/resend-reset/", ReenviarPasswordResetEmailView.as_view(), name="resend_password_reset"),
+
+    # 🔁 Incluir el resto de las rutas auth por defecto de Django
     path('accounts/', include('django.contrib.auth.urls')),
     
 

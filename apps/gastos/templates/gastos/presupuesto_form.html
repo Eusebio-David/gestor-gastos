@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <!-- Contenido principal -->
+    <main class="flex-1 flex items-center justify-center px-4 py-12">
+        
+            {% if not presupuesto %}
+                <div class="w-full max-w-md">
+                    <!-- Formulario de crear presupuesto -->
+                    <div id="budget-form" class="bg-white rounded-lg shadow-sm p-6 md:p-8">
+                        <!-- Header del formulario -->
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-goodbudget-light rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-goodbudget-dark">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2">Crear Presupuesto</h2>
+                            <p class="text-gray-600">Establece el monto y período para tu presupuesto</p>
+                        </div>
+                        <!-- Formulario -->
+                        <form action='' method='post' id="create-budget-form" class="space-y-6">
+                            <!-- Campo de monto -->
+                            {% csrf_token %}
+                            {{form.errors}}
+                            <div>
+                                <label for="budget-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto del presupuesto *</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 text-lg">$</span>
+                                    </div>
+                                    <input type="number" id="budget-amount" name="monto_maximo" step="0.01" min="0" placeholder="0.00" class="block w-full pl-8 pr-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget text-lg" required>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Ingresa el monto total que planeas gastar en este período</p>
+                            </div>
+
+                            <!-- Campo de fecha de expiración -->
+                            <div>
+                                <label for="expiration-date" class="block text-sm font-medium text-gray-700 mb-1">Fecha de expiración *</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5a2.25 2.25 0 002.25-2.25m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5a2.25 2.25 0 012.25 2.25v7.5" />
+                                        </svg>
+                                    </div>
+                                    <input type="date" id="expiration-date" name="fecha_de_expiracion" min="{{today}}"class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget" required>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Selecciona la fecha en que finalizará este presupuesto</p>
+                            </div>
+
+                            <!-- Información del presupuesto -->
+                            <div class="bg-goodbudget-lighter border border-goodbudget-light rounded-md p-4">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-goodbudget mr-3 mt-0.5 flex-shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-goodbudget-dark mb-1">¿Cómo funciona tu presupuesto?</p>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• Este será tu límite de gastos hasta la fecha de expiración</li>
+                                            <li>• Podrás ver cuánto has gastado vs. tu presupuesto</li>
+                                            <li>• Recibirás alertas cuando te acerques al límite</li>
+                                            <li>• Puedes modificarlo en cualquier momento</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Consejos útiles -->
+                            <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 2.676a48.014 48.014 0 00-6.75 0M12 12.75a48.014 48.014 0 00-6.75 0m6.75 0a48.014 48.014 0 006.75 0m-6.75 0V5.25A2.25 2.25 0 0115.75 3h-4.5A2.25 2.25 0 009 5.25v7.5M12 12.75v-1.5m6.75 2.676a48.014 48.014 0 01-6.75 0m6.75 0V12m-6.75 4.5V12" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-blue-800 mb-1">Consejos para tu presupuesto:</p>
+                                        <ul class="text-sm text-blue-700 space-y-1">
+                                            <li>• Para presupuestos mensuales, establece la fecha al final del mes</li>
+                                            <li>• Para proyectos específicos, ajusta la fecha a la duración del proyecto</li>
+                                            <li>• Considera tus gastos fijos y variables en el período seleccionado</li>
+                                            <li>• Incluye un margen para gastos inesperados</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botón de envío -->
+                            <button type="submit" id="submit-button" disabled class="w-full px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gray-300 cursor-not-allowed transition duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 inline">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Crear presupuesto
+                            </button>
+
+                            <!-- Enlaces adicionales -->
+                            <div class="text-center">
+                                <a href="#" class="text-sm text-goodbudget hover:text-goodbudget-dark font-medium">
+                                    <a href="{% url 'inicio' %}">← Volver al inicio</a>
+                                </a>
+                            </div>
+                        </form>
+                </div>
+            {% else %}
+                <div class="bg-goodbudget-lighter border border-goodbudget-light rounded-lg shadow-sm p-6 mb-6">
+                    <div class="flex items-start">
+                        <!-- Icono amigable -->
+                        <div class="flex-shrink-0 w-12 h-12 bg-goodbudget-light rounded-full flex items-center justify-center mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-goodbudget-dark">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                            
+                         <!-- Contenido del mensaje -->
+                        <div class="flex-1">
+                             <h3 class="text-lg font-semibold text-goodbudget-dark mb-2">¡Ya tienes un presupuesto configurado!</h3>
+                            <p class="text-gray-700 mb-4">
+                                    Perfecto, ya has establecido un presupuesto de <span class="font-semibold text-goodbudget-dark">{{presupuesto.monto_maximo}}</span> 
+                                    que está activo hasta el <span class="font-semibold text-goodbudget-dark">{{presupuesto.fecha_de_expiracion|date:"F j, Y"}}</span>. 
+                                    Mantener un solo presupuesto activo te ayuda a tener un mejor control de tus finanzas.
+                            </p>
+                                
+                             <!-- Información adicional amigable -->
+                            <div class="bg-white rounded-md p-3 mb-4 border border-goodbudget-light">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-600">Progreso actual:</span>
+                                    <span class="font-medium text-gray-900">$450.00 gastados</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                    <div class="bg-goodbudget h-2 rounded-full" style="width: 30%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>30% utilizado</span>
+                                    <span>$1,050.00 disponibles</span>
+                                </div>
+                                </div>
+                                
+                                <!-- Opciones para el usuario con estilo amigable -->
+                            <div class="space-y-3 sm:space-y-0 sm:flex sm:space-x-3">
+                                <a href="{% url 'detalle_presupuesto' pk=presupuesto.pk %}" class="text-center block w-full sm:w-auto px-4 py-2 border border-goodbudget rounded-md shadow-sm text-sm font-medium text-goodbudget bg-white hover:bg-goodbudget-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-goodbudget transition duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                        Ver detalles
+                                </a>
+                                <a href="{% url 'editar_presupuesto' pk=presupuesto.id %}" class="text-center block w-full sm:w-auto px-4 py-2 border border-goodbudget rounded-md shadow-sm text-sm font-medium text-goodbudget bg-white hover:bg-goodbudget-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-goodbudget transition duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+                                        Ajustar presupuesto
+                                </a>
+                                <button type="button" class="text-center block w-full sm:w-auto px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-goodbudget hover:bg-goodbudget-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-goodbudget transition duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    <a href="{% url 'crear_gasto' %}">Registrar gasto</a>
+                                    </button>
+                                </div>
+                                
+                                <!-- Mensaje motivacional -->
+                            <div class="mt-4 p-3 bg-white rounded-md border border-goodbudget-light">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-goodbudget mr-2 mt-0.5 flex-shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 2.676a48.014 48.014 0 00-6.75 0M12 12.75a48.014 48.014 0 00-6.75 0m6.75 0a48.014 48.014 0 006.75 0m-6.75 0V5.25A2.25 2.25 0 0115.75 3h-4.5A2.25 2.25 0 009 5.25v7.5M12 12.75v-1.5m6.75 2.676a48.014 48.014 0 01-6.75 0m6.75 0V12m-6.75 4.5V12" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-goodbudget-dark">¡Vas muy bien!</p>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                                Estás utilizando tu presupuesto de manera responsable. Continúa registrando tus gastos para mantener el control de tus finanzas.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+        
+    </main>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("create-budget-form");
+    const montoInput = document.getElementById("budget-amount");
+    const fechaInput = document.getElementById("expiration-date");
+    const submitButton = document.getElementById("submit-button");
+
+    function validarCampos() {
+        const montoValido = montoInput.value && parseFloat(montoInput.value) > 0;
+        const fechaValida = fechaInput.value && new Date(fechaInput.value) >= new Date().setHours(0,0,0,0);
+
+        if (montoValido && fechaValida) {
+            submitButton.disabled = false;
+            submitButton.classList.remove("bg-gray-300", "cursor-not-allowed");
+            submitButton.classList.add("bg-goodbudget", "hover:bg-goodbudget-dark");
+        } else {
+            submitButton.disabled = true;
+            submitButton.classList.add("bg-gray-300", "cursor-not-allowed");
+            submitButton.classList.remove("bg-goodbudget", "hover:bg-goodbudget-dark");
+        }
+    }
+
+    montoInput.addEventListener("input", validarCampos);
+    fechaInput.addEventListener("input", validarCampos);
+
+    // Ejecutar al cargar la página
+    validarCampos();
+});
+</script>
+
+{% endblock %}

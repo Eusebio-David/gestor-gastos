@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-=ai=gef6^h(*o7#f@1oo47g05#8q0u&p5-(*9!^7nfk(41ciqz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 # Application definition
@@ -161,10 +161,11 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 if DEBUG:
-    # Configuración de correo electrónico para desarrollo
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    # Configuración de correo electrónico para desarrollo, modo de prueba
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'  # Directorio para almacenar correos enviados
 else:
     # Configuración de correo electrónico para producción
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     #EMAIL_HOST = 'smtp.example.com'  # Cambia esto por tu servidor SMTP
+    pass

@@ -4,6 +4,23 @@
     <main class="container mx-auto px-4 py-8 max-w-2xl">
         <div class="bg-white rounded-lg shadow-sm p-6 md:p-8">
             
+            {% if messages %}
+                <div class="fixed top-4 right-4 z-50 space-y-2">
+                    {% for message in messages %}
+                        <div 
+                            class="px-4 py-3 rounded shadow-md
+                            {% if message.tags == 'success' %} bg-green-100 text-green-800 {% endif %}
+                            {% if message.tags == 'error' %} bg-red-100 text-red-800 {% endif %}
+                            {% if message.tags == 'warning' %} bg-yellow-100 text-yellow-800 {% endif %}
+                            {% if message.tags == 'info' %} bg-blue-100 text-blue-800 {% endif %}
+                            ">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+              
+            
             <!-- Estado del formulario (vista/edición) -->
             <div id="view-mode" >
                 <!-- Monto del gasto -->
@@ -170,11 +187,10 @@
                                 </svg>
                             </div>
                             <select id="edit-category" name="categoria" class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget appearance-none">
-                                <option value="{{ form.categoria.id }}" selected>{{ gasto.categoria.nombre }}</option>
-                                {% for categoria in categorias %}
-                                    {% if categoria.id != gasto.categoria.id %}
-                                        <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
-                                    {% endif %}
+                               {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}" {% if categoria.id == gasto.categoria.id %}selected{% endif %}>
+                                    {{ categoria.nombre }}
+                                    </option>
                                 {% endfor %}
                             </select>
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -187,14 +203,12 @@
 
                     <!-- Fecha del gasto -->
                     <div class="mb-6">
-                        <label for="edit-date" class="block text-sm font-medium text-gray-700 mb-1">Fecha del gasto *</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5a2.25 2.25 0 002.25-2.25m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5a2.25 2.25 0 012.25 2.25v7.5" />
-                                </svg>
-                            </div>
-                            <input type="date" id="edit-date" name="fecha_creacion" value="{{form.fecha_creacion.value}}" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget" required>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fecha del gasto</label>
+                        <div class="flex items-center p-3 bg-gray-50 rounded-md border">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400 mr-3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5a2.25 2.25 0 002.25-2.25m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5a2.25 2.25 0 012.25 2.25v7.5" />
+                            </svg>
+                            <span class="text-gray-900">{{gasto.fecha_creacion}}</span>
                         </div>
                     </div>
 
@@ -266,5 +280,16 @@
         editModeButton?.addEventListener('click', activateEditMode);
         cancelEditButton?.addEventListener('click', activateViewMode);
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+        const messages = document.querySelectorAll(".fixed.top-4.right-4 > div");
+        messages.forEach(msg => {
+            msg.style.transition = "opacity 0.5s ease";
+            msg.style.opacity = "0";
+            setTimeout(() => msg.remove(), 500);
+        });
+        }, 4000); // Desaparece después de 4 segundos
+        });
 </script>
 {% endblock  %}

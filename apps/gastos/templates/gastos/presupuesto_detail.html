@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <!-- Encabezado de la sección -->
+    <div class="bg-goodbudget-lighter px-6 py-4 border-b border-goodbudget-light">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-900">Detalles del Presupuesto</h2>
+            <span class="px-3 py-1 bg-goodbudget-light text-goodbudget-dark text-sm font-medium rounded-full">Activo</span>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="p-6">
+        <!-- Monto y fecha -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div class="mb-4 md:mb-0">
+                <p class="text-sm font-medium text-gray-500">Monto total</p>
+                <p class="text-3xl font-bold text-goodbudget">{{presupuesto.monto_maximo}}</p>
+            </div>
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5a2.25 2.25 0 002.25-2.25m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5a2.25 2.25 0 012.25 2.25v7.5" />
+                </svg>
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Válido hasta</p>
+                    <p class="text-base font-semibold text-gray-900">{{presupuesto.fecha_de_expiracion|date:"F j, Y"}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progreso del presupuesto -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-sm font-medium text-gray-700">Progreso del presupuesto</h3>
+                <span class="text-sm font-medium text-gray-900">30% utilizado</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="bg-goodbudget h-3 rounded-full" style="width: 30%"></div>
+            </div>
+            <div class="flex justify-between mt-2 text-sm text-gray-600">
+                <div>
+                    <span class="font-medium text-gray-900">$450.00</span> gastados
+                </div>
+                <div>
+                    <span class="font-medium text-gray-900">$1,050.00</span> disponibles
+                </div>
+            </div>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <!-- Fecha de creación -->
+            <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400 mr-3 mt-0.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-gray-700">Fecha de creación</p>
+                        <p class="text-sm text-gray-600">{{presupuesto.fecha_de_creacion|date:"F j, Y"}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Última actualización -->
+            <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400 mr-3 mt-0.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-gray-700">Última actualización</p>
+                        <p class="text-sm text-gray-600">5 de junio, 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas de gastos -->
+        <div class="mb-6">
+            <h3 class="text-sm font-medium text-gray-700 mb-3">Resumen de gastos</h3>
+            <div class="bg-gray-50 rounded-md p-4 border border-gray-200">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500">Total gastos</p>
+                        <p class="text-lg font-semibold text-gray-900">$450.00</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500">Mayor gasto</p>
+                        <p class="text-lg font-semibold text-gray-900">$120.00</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500">Promedio diario</p>
+                        <p class="text-lg font-semibold text-gray-900">$15.00</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500">Transacciones</p>
+                        <p class="text-lg font-semibold text-gray-900">12</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3 border-t border-gray-200 pt-6">
+            <!-- Botón de eliminar -->
+            <button type="button" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-goodbudget">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+                <a href="{% url 'eliminar_presupuesto' pk=presupuesto.id %}">Eliminar presupuesto</a>
+            </button>
+            
+            <!-- Botón de editar -->
+            <button type="button" class="inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-goodbudget hover:bg-goodbudget-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-goodbudget">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                </svg>
+                <a href="{% url 'editar_presupuesto' pk=presupuesto.id %}">Editar presupuesto</a>
+            </button>
+        </div>
+    </div>
+
+    <!-- Sección de acciones rápidas -->
+    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+        <div class="flex flex-wrap gap-2">
+            <a href="{% url 'crear_gasto' %}" class="inline-flex items-center px-3 py-1 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Registrar gasto
+            </a>
+            <a href="#" class="inline-flex items-center px-3 py-1 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+                Ver informes
+            </a>
+            <a href="#" class="inline-flex items-center px-3 py-1 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                </svg>
+                Análisis
+            </a>
+            <a href="#" class="inline-flex items-center px-3 py-1 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
+                </svg>
+                Exportar
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

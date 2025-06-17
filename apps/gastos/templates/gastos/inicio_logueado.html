@@ -25,7 +25,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H3.75m0 0h15v0c0 .621-.504 1.125-1.125 1.125H3.75M19.5 4.5v.75c-.001.246-.154.459-.389.573l-1.297.259c-.772.154-1.125.844-1.125 1.5v1.5c0 .656.353 1.346 1.125 1.5l1.297.259c.235.114.388.327.389.573v.75" />
                             </svg>
-                            Nuevo presupuesto
+                            <a href="{% url 'crear_presupuesto' %}">Nuevo presupuesto</a>
                         </button>
                         <button class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
@@ -75,10 +75,15 @@
                             </svg>
                             <!-- Texto central -->
                             <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span class="text-2xl font-bold text-gray-900">$1,250</span>
+                                {% if presupuesto.monto_maximo %}
+                                    <span class="text-2xl font-bold text-gray-900">$ {{presupuesto.monto_maximo}}</span>
+                                {% else %}
+                                    <span class="text-2xl font-bold text-gray-900">$0,0</span>
+                                {% endif %}
                                 <span class="text-sm text-gray-600">de $2,000</span>
                                 <span class="text-xs text-goodbudget font-medium">62.5% gastado</span>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -110,7 +115,7 @@
                     
                     <div class="space-y-4">
                         
-                        <!-- Gasto 1 -->
+                        <!-- Gastos -->
                          {% for gasto in gastos %}
                             <a href="{% url 'gasto_detalle' gasto.id %}">Ver</a>
                              <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50">

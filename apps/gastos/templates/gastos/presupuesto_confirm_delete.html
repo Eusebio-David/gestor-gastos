@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-2xl mx-auto">
+    <!-- Header de confirmación -->
+    <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-red-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">¿Eliminar este presupuesto?</h2>
+        <p class="text-gray-600">Esta acción no se puede deshacer</p>
+    </div>
+
+    <!-- Información del presupuesto a eliminar -->
+    <div class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Presupuesto que será eliminado:</h3>
+        
+        <!-- Card del presupuesto -->
+        <div class="bg-gray-50 rounded-lg border border-gray-200 p-6">
+            <!-- Monto y fecha -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm font-medium text-gray-500">Monto total</p>
+                    <p class="text-3xl font-bold text-goodbudget">$1,500.00</p>
+                </div>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5a2.25 2.25 0 002.25-2.25m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5a2.25 2.25 0 012.25 2.25v7.5" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Válido hasta</p>
+                        <p class="text-base font-semibold text-gray-900">30 de junio, 2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progreso del presupuesto -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-medium text-gray-700">Progreso actual</h3>
+                    <span class="text-sm font-medium text-gray-900">30% utilizado</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-goodbudget h-2 rounded-full" style="width: 30%"></div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm text-gray-600">
+                    <div>
+                        <span class="font-medium text-gray-900">$450.00</span> gastados
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-900">$1,050.00</span> disponibles
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fecha de creación -->
+            <div class="text-sm text-gray-600 pt-4 border-t border-gray-200">
+                <p>Creado el 1 de junio, 2025</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advertencias importantes -->
+    <div class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+        <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+            </svg>
+            <div>
+                <h4 class="text-sm font-semibold text-red-800 mb-2">Consecuencias de la eliminación:</h4>
+                <ul class="text-sm text-red-700 space-y-1">
+                    <li>• El presupuesto será eliminado permanentemente</li>
+                    <li>• Los gastos asociados seguirán existiendo pero sin presupuesto asignado</li>
+                    <li>• Los informes y estadísticas se actualizarán</li>
+                    <li>• Esta acción no se puede deshacer</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opciones alternativas -->
+    <div class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+        <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 2.676a48.014 48.014 0 00-6.75 0M12 12.75a48.014 48.014 0 00-6.75 0m6.75 0a48.014 48.014 0 006.75 0m-6.75 0V5.25A2.25 2.25 0 0115.75 3h-4.5A2.25 2.25 0 009 5.25v7.5M12 12.75v-1.5m6.75 2.676a48.014 48.014 0 01-6.75 0m6.75 0V12m-6.75 4.5V12" />
+            </svg>
+            <div>
+                <h4 class="text-sm font-semibold text-blue-800 mb-1">¿Realmente necesitas eliminar este presupuesto?</h4>
+                <p class="text-sm text-blue-700 mb-2">
+                    En lugar de eliminar, considera estas alternativas:
+                </p>
+                <ul class="text-sm text-blue-700 space-y-1">
+                    <li>• <span class="font-medium">Editar el presupuesto</span> para ajustar el monto o la fecha</li>
+                    <li>• <span class="font-medium">Crear un nuevo presupuesto</span> y dejar que este expire</li>
+                    <li>• <span class="font-medium">Archivar el presupuesto</span> para mantener el historial</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkbox de confirmación -->
+    <div class="flex items-start mb-8">
+        <div class="flex items-center h-5">
+            <input id="confirm-delete" name="confirm-delete" type="checkbox" class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+        </div>
+        <div class="ml-3 text-sm">
+            <label for="confirm-delete" class="font-medium text-gray-700">
+                Confirmo que deseo eliminar este presupuesto permanentemente
+            </label>
+            <p class="text-gray-500 mt-1">Entiendo que esta acción no se puede deshacer</p>
+        </div>
+    </div>
+
+    <!-- Motivo de eliminación (opcional) -->
+    <div class="mb-8">
+        <label for="delete-reason" class="block text-sm font-medium text-gray-700 mb-1">Motivo de eliminación (opcional)</label>
+        <textarea id="delete-reason" name="delete-reason" rows="2" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 resize-none" placeholder="¿Por qué estás eliminando este presupuesto?"></textarea>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="flex flex-col sm:flex-row gap-3">
+        <button type="button" class="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-goodbudget order-2 sm:order-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 inline">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            Cancelar
+        </button>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <button id="delete-button" type="submit" disabled class="w-full sm:w-auto px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:bg-gray-300 disabled:cursor-not-allowed transition duration-200 order-1 sm:order-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 inline">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+                Eliminar presupuesto
+            </button>
+        </form>
+        
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const confirmCheckbox = document.getElementById('confirm-delete');
+        const deleteButton = document.getElementById('delete-button');
+
+        // Habilitar/deshabilitar botón según checkbox
+        confirmCheckbox.addEventListener('change', function() {
+            deleteButton.disabled = !this.checked;
+        });
+
+        
+        
+    });
+</script>
+{% endblock %}
