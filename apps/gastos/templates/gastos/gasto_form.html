@@ -4,7 +4,31 @@
 <!-- Formulario de nuevo gasto -->
     <main class="container mx-auto px-4 py-8 max-w-2xl">
         <div class="bg-white rounded-lg shadow-sm p-6 md:p-8">
-           
+           <!-- Mensajes flash (éxito, error) -->
+            {% if messages %}
+            <div class="space-y-2 mb-4">
+                {% for message in messages %}
+                <div class="rounded-md px-4 py-3 text-sm font-medium
+                            {% if message.tags == 'success' %}
+                                bg-green-100 text-green-800 border border-green-300
+                            {% elif message.tags == 'error' %}
+                                bg-red-100 text-red-800 border border-red-300
+                            {% else %}
+                                bg-gray-100 text-gray-800 border border-gray-300
+                            {% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <!-- Errores generales del formulario -->
+            {% if form.non_field_errors %}
+            <div class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-3 text-sm font-medium mb-4">
+                {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
             <form  method='post' action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- Monto del gasto -->
@@ -33,6 +57,7 @@
 
                 <!-- Categoría -->
                 <div class="mb-6">
+                    
                     <label for="categoria" class="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -50,11 +75,20 @@
                             {% endfor %}
                             
                         </select>
+                        
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                             </svg>
                         </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="{% url 'crear_categoria' %}" class="inline-flex items-center px-3 py-2 border border-goodbudget text-sm font-medium rounded-md text-goodbudget bg-white hover:bg-goodbudget hover:text-white transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            Nueva categoría
+                        </a>
                     </div>
                 </div>
 
@@ -68,13 +102,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                             </svg>
                         </div>
-                        <select id="payment-method" name="payment-method" class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget appearance-none">
+                        <select id="payment-method" name="metodo_pago" class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget appearance-none">
                             <option value="">Selecciona método de pago</option>
-                            <option value="efectivo">💵 Efectivo</option>
-                            <option value="tarjeta-debito">💳 Tarjeta de débito</option>
-                            <option value="tarjeta-credito">💳 Tarjeta de crédito</option>
-                            <option value="transferencia">🏦 Transferencia bancaria</option>
-                            <option value="digital">📱 Pago digital</option>
+                            {% for value, label in metodos_pago %}
+                                <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
                         </select>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
@@ -87,7 +119,7 @@
                 <!-- Notas adicionales -->
                 <div class="mb-6">
                     <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notas adicionales</label>
-                    <textarea id="notes" name="notes" rows="3" class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget resize-none" placeholder="Información adicional sobre este gasto..."></textarea>
+                    <textarea id="notes" name="nota_adicionales" rows="3" class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-goodbudget focus:border-goodbudget resize-none" placeholder="Información adicional sobre este gasto..."></textarea>
                 </div>
 
                 <!-- Adjuntar recibo -->
@@ -99,9 +131,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                             </svg>
                             <div class="flex text-sm text-gray-600">
-                                <label for="receipt" class="relative cursor-pointer bg-white rounded-md font-medium text-goodbudget hover:text-goodbudget-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-goodbudget">
+                                <label for="archivo_adjunto" class="relative cursor-pointer bg-white rounded-md font-medium text-goodbudget hover:text-goodbudget-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-goodbudget">
                                     <span>Subir archivo</span>
-                                    <input id="receipt" name="receipt" type="file" accept="image/*,.pdf" class="sr-only">
+                                    <input id="receipt" name="archivo_adjunto" type="file" accept="image/*,.pdf" class="sr-only">
                                 </label>
                                 <p class="pl-1">o arrastra y suelta</p>
                             </div>

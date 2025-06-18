@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="bg-gray-50 min-h-screen flex items-center justify-center p-6">
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-lg px-8 py-12">
+    
+    <!-- Encabezado -->
+    <div class="text-center mb-10">
+      <div class="flex justify-center mb-4">
+        <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-1">Lista de Categorías</h2>
+      <p class="text-gray-600 text-sm">Selecciona una categoría para gestionar</p>
+    </div>
+
+    <!-- Lista o mensaje si no hay categorías -->
+    {% if categorias %}
+      <div class="flex justify-center">
+        <div class="w-full max-w-2xl space-y-3">
+          {% for categoria in categorias %}
+            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between">
+            
+              <!-- Nombre -->
+              <div class="flex items-center">
+                <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                <span class="font-medium text-gray-900">{{ categoria.nombre }}</span>
+              </div>
+
+              <!-- Acciones -->
+              <div class="flex items-center space-x-3">
+                <span class="text-sm text-gray-500 whitespace-nowrap">{{ categoria.cantidad_productos }} productos</span>
+
+                <a href="#" class="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 border border-blue-100 bg-blue-50 rounded-md hover:bg-blue-100 transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828A2 2 0 019 17H6v-3a2 2 0 012-2z"/>
+                  </svg>
+                  Editar
+                </a>
+
+                <form method="post" action="#" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
+                  {% csrf_token %}
+                  <button type="submit" class="flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 border border-red-100 bg-red-50 rounded-md hover:bg-red-100 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    Eliminar
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Paginación (siempre visible) -->
+      <div class="flex justify-center mt-8">
+        <nav class="inline-flex items-center space-x-1 text-sm" aria-label="Pagination">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" 
+               class="flex items-center px-3 py-2 border border-gray-300 text-gray-600 rounded-md hover:bg-gray-100 transition">
+              &larr; Anterior
+            </a>
+          {% else %}
+            <span class="px-3 py-2 text-gray-400 border border-gray-200 rounded-md cursor-not-allowed">
+              &larr; Anterior
+            </span>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <span class="px-3 py-2 bg-green-100 text-green-700 border border-green-300 rounded-md font-medium">
+                {{ num }}
+              </span>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+              <a href="?page={{ num }}" 
+                 class="px-3 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 transition">
+                {{ num }}
+              </a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" 
+               class="flex items-center px-3 py-2 border border-gray-300 text-gray-600 rounded-md hover:bg-gray-100 transition">
+              Siguiente &rarr;
+            </a>
+          {% else %}
+            <span class="px-3 py-2 text-gray-400 border border-gray-200 rounded-md cursor-not-allowed">
+              Siguiente &rarr;
+            </span>
+          {% endif %}
+        </nav>
+      </div>
+
+    {% else %}
+      <!-- Mensaje amigable cuando no hay categorías -->
+      <div class="text-center py-10">
+        <svg class="mx-auto w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        <p class="mt-4 text-gray-600">No tienes categorías registradas todavía.</p>
+        <a href="{% url 'crear_categoria' %}" class="inline-block mt-4 px-5 py-2 border border-green-500 text-green-600 font-medium rounded-lg hover:bg-green-50 transition">
+          Agregar mi primera categoría
+        </a>
+      </div>
+    {% endif %}
+
+    <!-- Botón agregar -->
+    <div class="mt-8 flex justify-center">
+      <a 
+        href="{% url 'crear_categoria' %}"
+        class="border-2 border-dashed border-gray-300 text-gray-600 hover:border-green-500 hover:text-green-600 font-semibold text-sm py-2 px-6 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+      >
+        + Agregar Nueva Categoría
+      </a>
+    </div>
+
+  </div>
+</main>
+
+
+
+
+{% endblock %}
