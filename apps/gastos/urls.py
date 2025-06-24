@@ -22,5 +22,7 @@ urlpatterns = [
 
     #urls para categoria
     path("categoria/crear/", views.CrearCategoria.as_view(), name='crear_categoria'),
-    path("categoria/lista/", views.ListaDeCategorias.as_view(), name='lista_de_categoria')
+    path("categoria/lista/", views.ListaDeCategorias.as_view(), name='lista_de_categoria'),
+    path("categoria/<int:pk>/editar", views.EditarCategoria.as_view(), name='editar_categoria'),
+    path("categoria/<int:pk>/eliminar", views.EliminarCategoria.as_view(), name="eliminar_categoria")
 ]

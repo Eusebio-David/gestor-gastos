@@ -92,6 +92,16 @@
         </a>
       </div>
     {% endif %}
+    <!-- Botón agregar -->
+    <div class="mt-8 flex justify-center">
+      <a 
+        href="{% url 'crear_gasto' %}"
+        class="border-2 border-dashed border-gray-300 text-gray-600 hover:border-green-500 hover:text-green-600 font-semibold text-sm py-2 px-6 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+      >
+        + Agregar Nuevo Gasto
+      </a>
+    </div>
+
   </div>
 </main>
 

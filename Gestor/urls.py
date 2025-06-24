@@ -30,13 +30,13 @@ urlpatterns += [
     path("", include("apps.gastos.urls")),
     path("usuario/", include("apps.usuarios.urls")),
     #Path para la autenticacion 
-    # ✅ Sobrescribir la vista para password reset (para guardar el email en sesión)
+    # Sobrescribir la vista para password reset (para guardar el email en sesión)
     path('accounts/password_reset/', MiPasswordResetView.as_view(), name='password_reset'),
 
-    # ✅ Ruta para reenviar email
+    #  Ruta para reenviar email
     path("accounts/resend-reset/", ReenviarPasswordResetEmailView.as_view(), name="resend_password_reset"),
 
-    # 🔁 Incluir el resto de las rutas auth por defecto de Django
+    # Incluir el resto de las rutas auth por defecto de Django
     path('accounts/', include('django.contrib.auth.urls')),
     
 

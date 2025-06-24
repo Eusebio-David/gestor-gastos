@@ -283,6 +283,39 @@ class ListaDeCategorias(LoginRequiredMixin,ListView):
         context["now"] = timezone.now() 
         return context
 
+class DetalleCategoria(LoginRequiredMixin, DetailView):
+    model = Categoria
+
+class EditarCategoria(LoginRequiredMixin, UpdateView):
+   
+    """
+    Vista para poder editar la categoria previamente creado. 
+    Asiganmos el modelo de categorìa y el formulario creado en forms.py. 
+    Al ser una clase Generica de Django, el funcionamiento lo simplifica facilmente.
+    """
+    model = Categoria 
+    form_class = CategoriaForm
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        messages.success(self.request, "Actualización de categoría con éxito")
+        return reverse_lazy('lista_de_categoria')+'?ok'
+
+class EliminarCategoria(LoginRequiredMixin, DeleteView):
+     
+    model = Categoria
+    success_url = reverse_lazy('inicio')
+
+
+    def get_queryset(self):
+        #Sobreescribimos el método get_queryset para filtrar las categorías del usuario autenticado
+        return Categoria.objects.filter(usuario=self.request.user)
+      
+    def post(self, request, *args, **kwargs):
+        messages.success(request, 'Categoría fue eliminada con éxito.')
+        return super().post(request, *args, **kwargs)
+
+
 def Inicio(request):
     if request.user.is_authenticated:
         

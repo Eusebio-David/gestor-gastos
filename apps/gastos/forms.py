@@ -70,6 +70,8 @@ class PresupuestoForm(forms.ModelForm):
         model = Presupuesto
         fields = ['monto_maximo', 'fecha_de_expiracion']
 
+
+
 class CategoriaForm(forms.ModelForm):
     """
     El método sobreescribe la validación del campo nombre dentro del formulario.
