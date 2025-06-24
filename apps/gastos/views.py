@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from datetime import date 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import GastoForm, PresupuestoForm
+from .forms import GastoForm, PresupuestoForm, CategoriaForm
 
 """
 Mixin para agregar las categorias al contexto de las vistas que lo hereden.
@@ -21,7 +21,7 @@ class CategoriaContextMixin:
         context['categorias'] = Categoria.objects.all()
         return context
 
-# Create your views here.
+
 
 #vistas para Presupuesto
 class CrearPresupuesto(LoginRequiredMixin, CreateView):
@@ -113,6 +113,8 @@ class PresupuestoEliminar(DeleteView):
         return super().post(request, *args, **kwargs)
 
 
+
+
 # vistas para Gastos
 class ListaDeGastos(ListView):
     """
@@ -121,15 +123,15 @@ class ListaDeGastos(ListView):
     model  = Gasto
     template_name = 'gastos/gasto_list.html'
     context_object_name = 'gastos'
+    paginate_by = 10  # ← Cuántos gastos mostrar por página
 
     def get_queryset(self):
-        return Gasto.objects.filter(usuario = self.request.user)
+        return Gasto.objects.filter(usuario = self.request.user).order_by("-fecha_creacion")
    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["now"] = timezone.now() 
         return context
-
 
 class CrearGasto(LoginRequiredMixin,CreateView):
 
@@ -143,7 +145,7 @@ class CrearGasto(LoginRequiredMixin,CreateView):
     success_url = reverse_lazy('inicio')
 
    
-
+    
     def form_valid(self, form):
         #Asignamos el usuario que creo el gasto antes de guardarlo. 
         form.instance.usuario = self.request.user
@@ -158,10 +160,17 @@ class CrearGasto(LoginRequiredMixin,CreateView):
         context = super().get_context_data(**kwargs)
         context["today"] = date.today().isoformat()
         context['categorias'] = Categoria.objects.all()
+        context['metodos_pago'] = Gasto.METODOS_PAGO
         return context
     
-
-
+    
+    def get_form_kwargs(self):
+        """
+        Sobreescribimos el metodo get_form_kwargs porque queremos pasar información adicional, ejemplo: self.request.user para que pueda ser utilizado en la validacion del formulario gasto. 
+        """
+        kwargs = super().get_form_kwargs() #llamamos al método original que devuelve data, fields, etc. 
+        kwargs['usuario'] = self.request.user
+        return kwargs
 
 class GastoEditarDetalle(LoginRequiredMixin, CategoriaContextMixin, View):
 
@@ -189,7 +198,7 @@ class GastoEditarDetalle(LoginRequiredMixin, CategoriaContextMixin, View):
 
         #obtenemos todas las categorias para mostrarlas en el formulario
         categorias = Categoria.objects.all()
-
+        metodos_pago = Gasto.METODOS_PAGO
         #leer si viene ?ok=true en la url
         ok = request.GET.get('ok')=='true'
 
@@ -198,7 +207,8 @@ class GastoEditarDetalle(LoginRequiredMixin, CategoriaContextMixin, View):
             'gasto':gasto,
             'form': form,
             'ok': ok,
-            'categorias': categorias
+            'categorias': categorias,
+            'metodos_pago': metodos_pago
         })
     
 
@@ -207,6 +217,7 @@ class GastoEditarDetalle(LoginRequiredMixin, CategoriaContextMixin, View):
         gasto = get_object_or_404(Gasto, pk=pk, usuario=request.user)
         form = GastoForm(request.POST, instance=gasto)
         categorias = Categoria.objects.all()
+        metodos_pago = Gasto.METODOS_PAGO
 
         if form.is_valid():
             
@@ -215,12 +226,14 @@ class GastoEditarDetalle(LoginRequiredMixin, CategoriaContextMixin, View):
             gasto_actualizado.save()
             messages.success(request, "Gasto actualizado correctamente")
             return redirect(reverse('gasto_detalle', args=[gasto.pk]) + '?ok=true')
-
+        else: 
+            messages.error(self.request, 'Por favor revisa los datos ingresados')
+        
         return render(request, self.template_name, {
             'gasto': gasto,
             'form': form,
             'ok': False,
-            'categorias':categorias
+            'categorias':categorias,'metodos_pago': metodos_pago
         })
         
 
@@ -236,6 +249,70 @@ class EliminarGasto(LoginRequiredMixin, DeleteView):
       
     def post(self, request, *args, **kwargs):
         messages.success(request, 'El gasto fue eliminado con éxito.')
+        return super().post(request, *args, **kwargs)
+
+#Vistas para crear, editar, modificar o eliminar una categoria
+
+class CrearCategoria(LoginRequiredMixin, CreateView):
+    model = Categoria 
+    form_class = CategoriaForm
+    success_url = reverse_lazy('inicio')
+
+    def form_valid(self, form):
+        #Asignamos el usuario que creo la categoria. 
+        form.instance.usuario = self.request.user
+        messages.success(self.request, "Categoria creada con éxito")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, 'Por favor verifica los datos ingresado del formulario')
+        response = super().form_invalid(form)
+        return response
+
+class ListaDeCategorias(LoginRequiredMixin,ListView):
+    model = Categoria 
+    template_name = 'gastos/categoria_list.html'
+    context_object_name = 'categorias'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Categoria.objects.filter(usuario = self.request.user)
+   
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["now"] = timezone.now() 
+        return context
+
+class DetalleCategoria(LoginRequiredMixin, DetailView):
+    model = Categoria
+
+class EditarCategoria(LoginRequiredMixin, UpdateView):
+   
+    """
+    Vista para poder editar la categoria previamente creado. 
+    Asiganmos el modelo de categorìa y el formulario creado en forms.py. 
+    Al ser una clase Generica de Django, el funcionamiento lo simplifica facilmente.
+    """
+    model = Categoria 
+    form_class = CategoriaForm
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        messages.success(self.request, "Actualización de categoría con éxito")
+        return reverse_lazy('lista_de_categoria')+'?ok'
+
+class EliminarCategoria(LoginRequiredMixin, DeleteView):
+     
+    model = Categoria
+    success_url = reverse_lazy('inicio')
+
+
+    def get_queryset(self):
+        #Sobreescribimos el método get_queryset para filtrar las categorías del usuario autenticado
+        return Categoria.objects.filter(usuario=self.request.user)
+      
+    def post(self, request, *args, **kwargs):
+        messages.success(request, 'Categoría fue eliminada con éxito.')
         return super().post(request, *args, **kwargs)
 
 
