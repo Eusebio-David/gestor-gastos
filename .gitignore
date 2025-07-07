@@ -28,3 +28,5 @@ Thumbs.db
 # Configuraciones de PyCharm o VSCode
 .idea/
 .vscode/
+
+*.env

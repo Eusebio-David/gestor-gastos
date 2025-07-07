@@ -38,7 +38,9 @@ urlpatterns += [
 
     # Incluir el resto de las rutas auth por defecto de Django
     path('accounts/', include('django.contrib.auth.urls')),
-    
+
+    #Incluir rutas de contacto
+    path("", include('apps.contacto.urls'))
 
 ]
 
