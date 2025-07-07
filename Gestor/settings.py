@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+#cargamos las variables 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +48,8 @@ INSTALLED_APPS = [
     "apps.gastos",
     "rest_framework",
     'django.contrib.sites',
+    "apps.contacto",
+    "apps.social",
     
     # Allauth apps
     'allauth',
@@ -81,6 +88,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.social.processors.ctx_dict",
             ],
         },
     },
@@ -160,10 +168,20 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+#Configuración de email con mailtrap.io, así simulamos el envío de un mensaje por parte de un usuario.
+"""
+Para recibir correos en mailtrap.io, se tiene que crear una cuenta y completar los datos que corresponda a tu usuario, de lo contrario los correos se envian a EMAIL_BACKEND QUE CONFIGURAMOS EN DEBUG
+"""
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+
 if DEBUG:
     # Configuración de correo electrónico para desarrollo, modo de prueba
-    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'  # Directorio para almacenar correos enviados
+    #EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    #EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'  # Directorio para almacenar correos enviados
+    pass
 else:
     # Configuración de correo electrónico para producción
     #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
