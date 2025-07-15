@@ -9,7 +9,7 @@
                 <a href="{% url 'inicio' %}" class="text-goodbudget font-bold text-2xl">Gestor</a>
                 <nav class="hidden md:flex space-x-8">
                     <a href="#" class="text-goodbudget hover:text-goodbudget-dark">Características</a>
-                    <a href="#" class="text-goodbudget hover:text-goodbudget-dark">Blog</a>
+                    <a href="{% url 'lista_post' %}" class="text-goodbudget hover:text-goodbudget-dark">Blog</a>
                     {% if user.is_authenticated %}
                         <a href="#" class="text-goodbudget hover:text-goodbudget-dark">Servicios</a>
                     {% else %}

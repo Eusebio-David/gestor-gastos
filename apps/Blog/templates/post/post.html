@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Todos los artículos</h1>
+      <p class="text-lg text-gray-600">Explorá nuestros contenidos recientes sobre finanzas personales, ahorro e inversiones.</p>
+    </div>
+
+     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {% for post in posts %}
+        <div class="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden h-full">
+          <!-- Imagen o inicial -->
+          {% if post.imagen %}
+            <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}" class="h-48 w-full object-cover">
+          {% else %}
+            <div class="h-48 w-full bg-goodbudget text-white flex items-center justify-center text-3xl font-bold">
+              {{ post.titulo|slice:":1" }}
+            </div>
+          {% endif %}
+
+          <!-- Contenido -->
+          <div class="p-6 flex flex-col justify-between flex-1">
+            <div>
+              <span class="inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">Finanzas</span>
+              <h2 class="text-lg font-bold text-gray-900 mb-2 leading-snug">{{ post.titulo }}</h2>
+              <p class="text-sm text-gray-600 line-clamp-3">{{ post.resumen|safe }}</p>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 flex justify-between items-center text-xs text-gray-500">
+              <span>{{ post.creado|date:"j/n/Y" }}</span>
+              <span>4 min de lectura</span>
+            </div>
+
+            <!-- Botón Ver más -->
+            <a href="{% url 'post_detalle' post.id post.slug %}" 
+               class="mt-4 inline-block text-sm font-semibold text-purple-700 hover:text-purple-900 transition duration-300">
+              Ver más →
+            </a>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-gray-500 col-span-full text-center">Aún no hay publicaciones disponibles.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Paginación -->
+    <div class="flex justify-center mt-6">
+      <nav class="inline-flex items-center space-x-2 text-sm">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
+          ← Anterior
+        </a>
+        {% else %}
+        <span class="px-3 py-2 rounded-md bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">
+          ← Anterior
+        </span>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        <a href="?page={{ num }}" class="{% if page_obj.number == num %}bg-goodbudget text-white{% else %}bg-white text-gray-700 hover:bg-gray-100{% endif %} px-3 py-2 rounded-md border border-gray-300 font-medium">
+          {{ num }}
+        </a>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
+          Siguiente →
+        </a>
+        {% else %}
+        <span class="px-3 py-2 rounded-md bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">
+          Siguiente →
+        </span>
+        {% endif %}
+      </nav>
+    </div>
+</main>
+
+
+
+
+{% endblock %}

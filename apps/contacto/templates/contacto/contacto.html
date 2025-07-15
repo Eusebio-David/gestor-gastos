@@ -354,70 +354,30 @@
                     Encuentra respuestas rápidas a las preguntas más comunes sobre Goodbudget.
                 </p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+            {% for pregunta in lista_preguntas %}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition duration-200">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">¿Cómo puedo restablecer mi contraseña?</h3>
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">{{ pregunta.titulo }}</h3>
+
                     <p class="text-gray-600 mb-6 leading-relaxed">
-                        Puedes restablecer tu contraseña desde la página de inicio de sesión haciendo clic en "¿Olvidaste tu
-                        contraseña?" y siguiendo las instrucciones que te enviaremos por email.
+                    {{ pregunta.resumen|safe }}
                     </p>
-                    <a href="#" class="text-goodbudget hover:text-goodbudget-dark font-semibold text-sm inline-flex items-center">
-                        Ver tutorial completo
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
+
+                    <a href="{% url 'pregunta_detalle' pregunta.pk %}" class="text-goodbudget hover:text-goodbudget-dark font-semibold text-sm inline-flex items-center">
+                    Ver tutorial completo
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                     </a>
                 </div>
+                {% endfor %}
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition duration-200">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">
-                        ¿Puedo sincronizar mis datos entre dispositivos?
-                    </h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Sí, todos tus datos se sincronizan automáticamente en la nube. Puedes acceder a tu cuenta desde
-                        cualquier dispositivo móvil o computadora sin perder información.
-                    </p>
-                    <a href="#" class="text-goodbudget hover:text-goodbudget-dark font-semibold text-sm inline-flex items-center">
-                        Configurar sincronización
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition duration-200">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">¿Cómo cancelo mi suscripción?</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Puedes cancelar tu suscripción en cualquier momento desde la configuración de tu cuenta. No se aplicarán
-                        cargos adicionales y mantendrás acceso hasta el final del período pagado.
-                    </p>
-                    <a href="#" class="text-goodbudget hover:text-goodbudget-dark font-semibold text-sm inline-flex items-center">
-                        Gestionar suscripción
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition duration-200">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">¿Mis datos están seguros?</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Utilizamos encriptación de nivel bancario y cumplimos con los más altos estándares de seguridad para
-                        proteger tu información financiera personal y mantenerla completamente privada.
-                    </p>
-                    <a href="#" class="text-goodbudget hover:text-goodbudget-dark font-semibold text-sm inline-flex items-center">
-                        Política de seguridad
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
             </div>
+        </div>
 
             <div class="text-center mt-12">
                 <a
-                    href="#"
+                    href="{% url 'lista_de_preguntas' %}"
                     class="inline-flex items-center px-8 py-4 border-2 border-goodbudget text-goodbudget hover:bg-goodbudget hover:text-white rounded-lg font-semibold transition duration-200 transform hover:scale-105"
                 >
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

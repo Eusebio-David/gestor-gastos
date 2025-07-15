@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "ckeditor",
+    "ckeditor_uploader",
     # Django apps
     #Apps
     "apps.usuarios",
@@ -50,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     "apps.contacto",
     "apps.social",
+    "apps.preguntas",
+    "apps.Blog",
     
     # Allauth apps
     'allauth',
@@ -64,6 +68,11 @@ INSTALLED_APPS = [
     
     
 ]
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_CONFIGS = {
+    'toolbar': 'full'
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -103,11 +112,11 @@ WSGI_APPLICATION = "Gestor.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "gestorGastosdb",
-        "USER": "postgres",
-        "PASSWORD": "Admin", 
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": os.environ.get('NAME_BD'),
+        "USER": os.environ.get('USER_BD'),
+        "PASSWORD": os.environ.get('PASSWORD_BD'), 
+        "HOST": os.environ.get('HOST_BD'),
+        "PORT": os.environ.get('PORT_BD'),
     }
 }
 
@@ -142,6 +151,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+#Ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'none',
+       
+        
+        
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

@@ -40,7 +40,16 @@ urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 
     #Incluir rutas de contacto
-    path("", include('apps.contacto.urls'))
+    path("", include('apps.contacto.urls')),
+
+    #incluir rutas para preguntas frecuentes
+    path("", include('apps.preguntas.urls')),
+
+    #ckeditor
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+
+    #blog
+    path('', include('apps.Blog.urls'))
 
 ]
 
