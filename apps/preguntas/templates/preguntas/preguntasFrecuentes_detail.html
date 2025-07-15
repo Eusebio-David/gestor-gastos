@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="min-h-screen bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-200">
+    
+    <!-- Encabezado de la pregunta -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold text-gray-900 mb-4">
+        {{ pregunta.titulo }}
+      </h1>
+      <p class="text-gray-500 text-base">
+        Pregunta frecuente de nuestros usuarios
+      </p>
+    </div>
+
+    <!-- Contenido de la pregunta -->
+    <div class="prose max-w-none mb-6">
+     {{pregunta.contenido|safe}}
+    </div>
+
+ 
+    <!-- Botón centrado -->
+    <div class="text-center">
+      <a href="{% url 'lista_de_preguntas' %}" class="inline-flex items-center gap-2 px-8 py-3 bg-goodbudget text-white font-semibold text-sm rounded-lg hover:bg-goodbudget-dark transition duration-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Ver todas las preguntas frecuentes
+      </a>
+    </div>
+
+  </div>
+</main>
+
+
+{% endblock %}

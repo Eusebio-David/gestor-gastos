@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-10 text-center">Preguntas Frecuentes</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      {% for pregunta in page_obj %}
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-200">
+        <h3 class="text-lg font-bold text-gray-900 mb-3">{{ pregunta.titulo }}</h3>
+        <p class="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-4">
+          {{ pregunta.resumen|safe }}
+        </p>
+        <a href="{% url 'pregunta_detalle' pregunta.pk %}" class="text-goodbudget hover:text-goodbudget-dark text-sm font-semibold inline-flex items-center">
+          Ver más
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      {% empty %}
+      <p class="text-center text-gray-500 col-span-full">No hay preguntas aún.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    <div class="flex justify-center mt-6">
+      <nav class="inline-flex items-center space-x-2 text-sm">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
+          ← Anterior
+        </a>
+        {% else %}
+        <span class="px-3 py-2 rounded-md bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">
+          ← Anterior
+        </span>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        <a href="?page={{ num }}" class="{% if page_obj.number == num %}bg-goodbudget text-white{% else %}bg-white text-gray-700 hover:bg-gray-100{% endif %} px-3 py-2 rounded-md border border-gray-300 font-medium">
+          {{ num }}
+        </a>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
+          Siguiente →
+        </a>
+        {% else %}
+        <span class="px-3 py-2 rounded-md bg-gray-100 text-gray-400 border border-gray-300 cursor-not-allowed">
+          Siguiente →
+        </span>
+        {% endif %}
+      </nav>
+    </div>
+  </div>
+</main>
+
+{% endblock content %}

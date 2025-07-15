@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+
+    <!-- Título -->
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ post.titulo }}</h1>
+
+    <!-- Meta info -->
+    <div class="flex items-center text-sm text-gray-500 space-x-4 mb-8">
+      <span>{{ post.creado|date:"j F Y" }}</span>
+      <span>•</span>
+      <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+        Finanzas
+      </span>
+      <span>•</span>
+      <span>4 min de lectura</span>
+    </div>
+
+    <!-- Imagen destacada -->
+    {% if post.imagen %}
+      <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}" class="w-full h-96 object-cover rounded-xl shadow mb-8">
+    {% endif %}
+
+    <!-- Contenido -->
+    <article class="prose prose-lg max-w-none text-gray-800">
+      {{ post.contenido|safe }}
+    </article>
+
+    <!-- Botón de volver -->
+    <div class="mt-12">
+      <a href="{% url 'lista_post' %}" 
+         class="inline-block bg-green-600 text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-green-700 transition duration-300">
+        ← Volver a todos los artículos
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

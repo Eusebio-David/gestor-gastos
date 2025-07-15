@@ -1,6 +1,22 @@
 {
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.7",
-    "tailwindcss": "^4.1.7"
-  }
+    "@tailwindcss/cli": "^4.1.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
+    "install": "^0.13.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  },
+  "name": "gestor",
+  "version": "1.0.0",
+  "description": "Aplicación web para la gestión y control de gastos personales. Permite a los usuarios registrar sus gastos, categorizarlos, definir presupuestos personalizados y hacer un seguimiento visual de sus finanzas.",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

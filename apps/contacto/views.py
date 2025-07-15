@@ -3,11 +3,17 @@ from django.urls import reverse
 from django.core.mail import EmailMessage 
 from .forms import ContactoForm 
 from .models import InformacionContacto
-
+from apps.preguntas.models import PreguntasFrecuentes
 # Create your views here.
 
 def Contacto(request):
-    
+    """
+    Establecemos el formulario de contacto el que creamos en forms.py.
+    tomamos los datos con post.get()
+    Armamos el cuerpo del mensaje que sera enviado con EmailMessage
+    dentro del bloque try corroboramos que se haya enviado con éxito y en caso contrario retornamos un error.
+    """
+    lista_preguntas = PreguntasFrecuentes.objects.all()
     contacto_form = ContactoForm()
     if request.method == 'POST':
         contacto_form = ContactoForm(data=request.POST)
@@ -45,7 +51,8 @@ def Contacto(request):
         
            
    
-    return render(request, 'contacto/contacto.html',{'form':contacto_form, 'informacion':infoContacto})
+    return render(request, 'contacto/contacto.html',{'form':contacto_form, 'informacion':infoContacto, 'lista_preguntas':lista_preguntas
+    })
    
 
    

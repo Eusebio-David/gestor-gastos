@@ -10,7 +10,7 @@ from datetime import date
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import GastoForm, PresupuestoForm, CategoriaForm
-
+from apps.Blog.models import Post
 """
 Mixin para agregar las categorias al contexto de las vistas que lo hereden.
 Este mixin se puede usar en cualquier vista que necesite mostrar las categorias.
@@ -336,7 +336,8 @@ def Inicio(request):
         else:
             return render(request, 'inicio.html', {'gastos': gastos_recientes, 'presupuesto': '0,0'})
     else:
-        return render(request, 'inicio.html')  # sin contexto, o podemos pasar otro
+        posts = Post.objects.all().filter().order_by('id')
+        return render(request, 'inicio.html', {'posts': posts})  # sin contexto, o podemos pasar otro
 
 
     
